@@ -327,15 +327,27 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
 
-        // camelize (lower first character) the variable name
+        // TODO: remove replace all special characters with an underscore
+        // remove square brackets, e.g.,
+        // user[image] => user_image_
+        name = name.replaceAll("[\\[\\]]", "_");
+
+        //remove leading and trailing underscores, e.g.,
+        // user_image_ => user_image
+        name = name.replaceAll("^_*", "");
+        name = name.replaceAll("_*$", "");
+
+        // convert the variable name to camel case
         // pet_id => petId
         name = camelize(name, true);
 
+        // prefix names that start with a digit with an n
+        // 23dogs => n23dogs
         if (name.matches("^\\d.*")) {
             name = "n" + name;
         }

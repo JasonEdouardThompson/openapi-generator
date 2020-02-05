@@ -8,6 +8,7 @@ import 'package:jaguar_serializer_protobuf/proto_repo.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:{{pubName}}/auth/api_key_auth.dart';
 import 'package:{{pubName}}/auth/basic_auth.dart';
+import 'package:{{pubName}}/auth/bearer_auth.dart';
 import 'package:{{pubName}}/auth/oauth.dart';
 import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 
@@ -40,7 +41,7 @@ final Map<String, CodecRepo> defaultConverters = {
 {{/protoFormat}}
 
 
-final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];
+final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor(), BearerAuthInterceptor()];
 
 class {{clientName}} {
     List<Interceptor> interceptors;
@@ -80,6 +81,35 @@ class {{clientName}} {
     void setApiKey(String name, String apiKey) {
         (_defaultInterceptors[2] as ApiKeyAuthInterceptor).apiKeys[name] = apiKey;
     }
+
+    void setBearerToken(String name, String token) {
+        (_defaultInterceptors[3] as BearerAuthInterceptor).tokens[name] = token;
+    }
+
+{{#hasAuthMethods}}
+    {{#authMethods}}
+        {{#isBasicBasic}}
+            void setBasicAuth_{{{name}}}(String username, String password) {
+                (_defaultInterceptors[1] as BasicAuthInterceptor).authInfo["{{{name}}}"] = BasicAuthInfo(username, password);
+            }
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+            void setBearerAuth_{{{name}}}(String token) {
+                (_defaultInterceptors[3] as BearerAuthInterceptor).tokens["{{{name}}}"] = token;
+            }
+        {{/isBasicBearer}}
+        {{#isApiKey}}
+            void setApiKey_{{{name}}}(String apiKey) {
+                (_defaultInterceptors[2] as ApiKeyAuthInterceptor).apiKeys["{{{name}}}"] = apiKey;
+            }
+        {{/isApiKey}}
+        {{#isOAuth}}
+            void setOAuthToken_{{{name}}}(String token) {
+                (_defaultInterceptors[0] as OAuthInterceptor).tokens["{{{name}}}"] = token;
+            }
+        {{/isOAuth}}
+    {{/authMethods}}
+{{/hasAuthMethods}}
 
     {{#apiInfo}}{{#apis}}
     /**

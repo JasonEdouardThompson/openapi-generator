@@ -1,11 +1,11 @@
 {{#models}}
 {{#model}}
-import 'package:{{pubName}}/api.dart';
+
 import 'package:test/test.dart';
 
 // tests for {{classname}}
 void main() {
-  var instance = new {{classname}}();
+{{^isEnum}}var instance = new {{classname}}();{{/isEnum}}
 
   group('test {{classname}}', () {
     {{#vars}}

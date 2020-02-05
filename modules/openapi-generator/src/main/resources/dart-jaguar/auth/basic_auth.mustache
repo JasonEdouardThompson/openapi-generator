@@ -15,7 +15,7 @@ class BasicAuthInterceptor extends AuthInterceptor {
 
     @override
     FutureOr<void> before(RouteBase route) {
-        final metadataAuthInfo = getAuthInfo(route, "basic");
+        final metadataAuthInfo = getAuthInfo(route, "http", "basic");
         for (var info in metadataAuthInfo) {
             final authName = info["name"];
             final basicAuthInfo = authInfo[authName];

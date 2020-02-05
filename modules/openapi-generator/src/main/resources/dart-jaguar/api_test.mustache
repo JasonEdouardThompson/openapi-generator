@@ -3,6 +3,8 @@ import 'package:test/test.dart';
 
 {{#operations}}
 
+import 'package:{{pubName}}/api/{{classFilename}}.dart';
+
 /// tests for {{classname}}
 void main() {
   var instance = new {{classname}}();

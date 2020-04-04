@@ -145,8 +145,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("integer", "int");
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
-        typeMapping.put("File", "MultipartFile");
-        typeMapping.put("binary", "MultipartFile");
+        typeMapping.put("File", "Multipart");
+        typeMapping.put("binary", "Multipart");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
         typeMapping.put("ByteArray", "String");

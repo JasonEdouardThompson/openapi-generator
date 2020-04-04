@@ -276,20 +276,20 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
             for (CodegenParameter param : op.allParams) {
                 if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
-                    param.baseType = "MultipartFile";
-                    param.dataType = "MultipartFile";
+                    param.baseType = "Multipart";
+                    param.dataType = "Multipart";
                 }
             }
             for (CodegenParameter param : op.formParams) {
                 if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
-                    param.baseType = "MultipartFile";
-                    param.dataType = "MultipartFile";
+                    param.baseType = "Multipart";
+                    param.dataType = "Multipart";
                 }
             }
             for (CodegenParameter param : op.bodyParams) {
                 if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
-                    param.baseType = "MultipartFile";
-                    param.dataType = "MultipartFile";
+                    param.baseType = "Multipart";
+                    param.dataType = "Multipart";
                 }
             }
 

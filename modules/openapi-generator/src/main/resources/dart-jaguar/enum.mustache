@@ -20,6 +20,7 @@ class {{classname}}FieldProcessor implements FieldProcessor<{{classname}}, {{dat
     const {{classname}}FieldProcessor();
 
     {{classname}} deserialize({{dataType}} data) {
+        if( data == null ) return null;
         switch (data) {
         {{#allowableValues}}
             {{#enumVars}}

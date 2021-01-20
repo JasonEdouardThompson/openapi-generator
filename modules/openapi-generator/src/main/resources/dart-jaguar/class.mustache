@@ -6,9 +6,12 @@ message {{classname}} {
 }
 {{/protoFormat}}
 {{#jsonFormat}}
+
+import 'package:equatable/equatable.dart';
+
 part '{{classFilename}}.jser.dart';
 
-class {{classname}} {
+class {{classname}} with EquatableMixin {
   {{#vars}}{{#description}} /* {{{description}}} */{{/description}}
   @Alias('{{{baseName}}}', isNullable:{{#isNullable}} true{{/isNullable}}{{^isNullable}} false{{/isNullable}},{{#allowableValues}}
           {{^enumVars.empty}}{{^isString}}{{! isString because inline enums are not handled for now }}
@@ -32,9 +35,27 @@ class {{classname}} {
   String toString() {
     return '{{classname}}[{{#vars}}{{name}}=${{name}}, {{/vars}}]';
   }
+
+  @override
+  List<Object> get props {
+    return [
+        {{#vars}}{{name}},
+        {{/vars}}
+    ];
+  }
+
+  {{classname}} copyWith({
+    {{#vars}}{{{datatype}}} {{name}},
+    {{/vars}}
+    }){
+        return {{classname}}(
+            {{#vars}}{{name}}: {{name}} ?? this.{{name}},
+            {{/vars}}
+        );
+    }
 }
 
-@GenSerializer(nullableFields: {{nullableFields}})
+@GenSerializer(nullableFields: {{nullableFields}}, ignore: const [ 'props', 'stringify' ],)
 class {{classname}}Serializer extends Serializer<{{classname}}> with _${{classname}}Serializer {
 
 }
